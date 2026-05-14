@@ -4,15 +4,17 @@ on:
   push:
     branches: [ main ]
 
-# Giải quyết cảnh báo Node.js 20 bằng cách ép sử dụng Node 24
+# Cấu hình môi trường dựa trên thông báo mới nhất
 env:
+  # Ép sử dụng Node24 ngay bây giờ để kiểm tra tính tương thích
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
-    runs-on: macos-latest
+    # Sử dụng macOS mới nhất vì Node24 không hỗ trợ macOS 13.4 trở xuống
+    runs-on: macos-latest 
     steps:
-      # Sử dụng v4 để tương thích tốt nhất với môi trường mới
+      # Sử dụng các phiên bản Action mới nhất chạy trên Node24
       - uses: actions/checkout@v4
 
       - name: Install Flutter
@@ -25,7 +27,6 @@ jobs:
         run: flutter pub get
 
       - name: Build iOS App (No Sign)
-        # Build bản release không cần chứng chỉ Apple dành cho TrollStore
         run: flutter build ios --release --no-codesign
 
       - name: Create IPA Structure
@@ -35,7 +36,7 @@ jobs:
           zip -vr SmartFan.ipa Payload/
 
       - name: Upload IPA Artifact
-        # Sử dụng v4 để đảm bảo tốc độ và không bị lỗi thời
+        # Cập nhật lên phiên bản mới nhất để đảm bảo chạy trên Node24
         uses: actions/upload-artifact@v4
         with:
           name: Smart-Fan-Install-File
