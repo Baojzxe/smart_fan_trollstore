@@ -4,40 +4,38 @@ on:
   push:
     branches: [ main ]
 
-# Cấu hình môi trường dựa trên thông báo mới nhất
-env:
-  # Ép sử dụng Node24 ngay bây giờ để kiểm tra tính tương thích
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   build:
-    # Sử dụng macOS mới nhất vì Node24 không hỗ trợ macOS 13.4 trở xuống
-    runs-on: macos-latest 
+    runs-on: macos-latest
+
     steps:
-      # Sử dụng các phiên bản Action mới nhất chạy trên Node24
-      - uses: actions/checkout@v4
+      - name: Checkout source code
+        uses: actions/checkout@v6
 
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: stable
           cache: true
+
+      - name: Show Flutter version
+        run: flutter --version
 
       - name: Get Dependencies
         run: flutter pub get
 
-      - name: Build iOS App (No Sign)
+      - name: Build iOS App No Sign
         run: flutter build ios --release --no-codesign
 
       - name: Create IPA Structure
         run: |
+          rm -rf Payload SmartFan.ipa
           mkdir Payload
           cp -r build/ios/iphoneos/Runner.app Payload/
           zip -vr SmartFan.ipa Payload/
 
       - name: Upload IPA Artifact
-        # Cập nhật lên phiên bản mới nhất để đảm bảo chạy trên Node24
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: Smart-Fan-Install-File
           path: SmartFan.ipa
