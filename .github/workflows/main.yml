@@ -5,7 +5,7 @@ jobs:
   build:
     runs-on: macos-latest # Sử dụng máy ảo macOS để có quyền sử dụng Xcode
     steps:
-      - uses: actions/checkout@v3 # Lấy mã nguồn từ repo của bạn
+      - uses: actions/checkout@v4 # Lấy mã nguồn từ repo của bạn
       
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
