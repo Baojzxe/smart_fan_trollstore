@@ -1,0 +1,33 @@
+name: Build_IPA_TrollStore
+on: [push] # Tự động chạy mỗi khi bạn đẩy code mới lên GitHub
+
+jobs:
+  build:
+    runs-on: macos-latest # Sử dụng máy ảo macOS để có quyền sử dụng Xcode
+    steps:
+      - uses: actions/checkout@v3 # Lấy mã nguồn từ repo của bạn
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable' # Sử dụng phiên bản Flutter ổn định nhất
+          
+      - run: flutter pub get # Cài đặt các thư viện (Firebase, v.v.)
+        
+      - name: Build iOS (No Sign)
+        # Build ra bộ khung ứng dụng mà không cần ký tên chứng chỉ
+        run: flutter build ios --release --no-codesign
+        
+      - name: Create IPA Structure
+        # Đóng gói thư mục .app thành định dạng .ipa mà TrollStore có thể đọc
+        run: |
+          mkdir Payload
+          cp -r build/ios/iphoneos/Runner.app Payload/
+          zip -vr SmartFan.ipa Payload/
+          
+      - name: Upload Result
+        # Lưu trữ file .ipa để bạn có thể tải về máy Windows
+        uses: actions/upload-artifact@v3
+        with:
+          name: Smart-Fan-Install-File
+          path: SmartFan.ipa
