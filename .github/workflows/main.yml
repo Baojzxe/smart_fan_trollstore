@@ -8,7 +8,7 @@ jobs:
       - uses: actions/checkout@v4 # Lấy mã nguồn từ repo của bạn
       
       - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@v2.16.0
         with:
           channel: 'stable' # Sử dụng phiên bản Flutter ổn định nhất
           
