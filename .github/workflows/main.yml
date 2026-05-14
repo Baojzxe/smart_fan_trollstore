@@ -27,7 +27,7 @@ jobs:
           
       - name: Upload Result
         # Lưu trữ file .ipa để bạn có thể tải về máy Windows
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Smart-Fan-Install-File
           path: SmartFan.ipa
