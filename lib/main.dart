@@ -9,21 +9,14 @@ import 'package:flutter/material.dart' show Icons;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (kIsWeb) {
     await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: 'AIzaSyBgZWz5EpR5vaajIidhgI61jgQf5tkWgvs',
-        authDomain: 'group-3-8065d.firebaseapp.com',
-        databaseURL: 'https://group-3-8065d-default-rtdb.firebaseio.com',
-        projectId: 'group-3-8065d',
-        storageBucket: 'group-3-8065d.firebasestorage.app',
-        messagingSenderId: '398843377397',
-        appId: '1:398843377397:web:1878686f0b2395e61137bc',
-      ),
+      options: DefaultFirebaseOptions.currentPlatform,
     );
   } else {
     await Firebase.initializeApp();
