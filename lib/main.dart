@@ -14,17 +14,40 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (kIsWeb) {
+  try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-  } else {
-    await Firebase.initializeApp();
+
+    runApp(const SmartFanApp());
+  } catch (e) {
+    runApp(
+      CupertinoApp(
+        debugShowCheckedModeBanner: false,
+        home: CupertinoPageScaffold(
+          navigationBar: const CupertinoNavigationBar(
+            middle: Text('Smart Fan Error'),
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Center(
+                child: Text(
+                  'Lỗi khởi tạo Firebase:\n\n$e',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: CupertinoColors.systemRed,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
-
-  runApp(const SmartFanApp());
 }
-
 class SmartFanApp extends StatelessWidget {
   const SmartFanApp({super.key});
 
