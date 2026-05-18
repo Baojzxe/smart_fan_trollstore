@@ -66,5 +66,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+        <string>Ứng dụng cần Bluetooth để kết nối và điều khiển quạt Smart Fan qua ESP32.</string>
+
+<key>NSBluetoothPeripheralUsageDescription</key>
+        <string>Ứng dụng cần Bluetooth để gửi lệnh bật tắt quạt tới ESP32.</string>
 </dict>
 </plist>
